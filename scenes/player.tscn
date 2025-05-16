@@ -1,0 +1,68 @@
+[gd_scene load_steps=5 format=3 uid="uid://dfeswoxxqkp31"]
+
+[ext_resource type="Script" uid="uid://b5etattpegkui" path="res://scenes/player.gd" id="1_3vyb7"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_3vyb7"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3vyb7"]
+size = Vector2(2, 20)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_g2els"]
+radius = 11.0
+
+[node name="Player" type="CharacterBody2D" groups=["player"]]
+collision_mask = 12
+script = ExtResource("1_3vyb7")
+shield_radius = 17.0
+
+[node name="ColorRect" type="ColorRect" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -10.0
+offset_top = -10.0
+offset_right = 10.0
+offset_bottom = 10.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_3vyb7")
+
+[node name="Shield" type="Area2D" parent="."]
+collision_layer = 2
+collision_mask = 4
+
+[node name="ColorRect" type="ColorRect" parent="Shield"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -1.0
+offset_top = -10.0
+offset_right = 1.0
+offset_bottom = 10.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.75073, 0.980755, 0.325075, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Shield"]
+shape = SubResource("RectangleShape2D_3vyb7")
+
+[node name="Timer" type="Timer" parent="Shield"]
+one_shot = true
+
+[node name="Hitbox" type="Area2D" parent="." groups=["player_hitbox"]]
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
+shape = SubResource("CircleShape2D_g2els")
+debug_color = Color(0.949604, 0, 0.57268, 0.42)
+
+[connection signal="body_entered" from="Shield" to="." method="_on_shield_body_entered"]
+[connection signal="body_entered" from="Hitbox" to="." method="_on_hitbox_body_entered"]

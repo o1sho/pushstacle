@@ -1,0 +1,85 @@
+[gd_scene load_steps=6 format=3 uid="uid://ujp7x81eqpkg"]
+
+[ext_resource type="PackedScene" uid="uid://dfeswoxxqkp31" path="res://scenes/player.tscn" id="1_4sxn7"]
+[ext_resource type="PackedScene" uid="uid://654xagalh2p0" path="res://scenes/enemy.tscn" id="2_mixvf"]
+[ext_resource type="PhysicsMaterial" uid="uid://qty6bjhe0rj6" path="res://scenes/physics_materials/wall_physics_material.tres" id="3_qd4g6"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_mixvf"]
+size = Vector2(15, 240)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qd4g6"]
+size = Vector2(240, 15)
+
+[node name="TestGameScene" type="Node2D"]
+
+[node name="Player" parent="." instance=ExtResource("1_4sxn7")]
+position = Vector2(120, 96)
+move_speed = 80
+rotation_speed = 3
+shield_push_distance = 20.0
+shield_push_time = 0.05
+shield_return_time = 0.03
+recharge_time = 1.0
+push_force = 100.0
+
+[node name="Enemy" parent="." instance=ExtResource("2_mixvf")]
+position = Vector2(187, 66)
+
+[node name="LeftWall" type="StaticBody2D" parent="."]
+collision_layer = 8
+collision_mask = 5
+physics_material_override = ExtResource("3_qd4g6")
+
+[node name="ColorRect" type="ColorRect" parent="LeftWall"]
+offset_right = 15.0
+offset_bottom = 240.0
+color = Color(0, 0, 0, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LeftWall"]
+position = Vector2(7.5, 120)
+shape = SubResource("RectangleShape2D_mixvf")
+
+[node name="RightWall" type="StaticBody2D" parent="."]
+position = Vector2(241, 0)
+collision_layer = 8
+collision_mask = 5
+physics_material_override = ExtResource("3_qd4g6")
+
+[node name="ColorRect" type="ColorRect" parent="RightWall"]
+offset_right = 15.0
+offset_bottom = 240.0
+color = Color(0, 0, 0, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RightWall"]
+position = Vector2(7.5, 120)
+shape = SubResource("RectangleShape2D_mixvf")
+
+[node name="UpWall" type="StaticBody2D" parent="."]
+position = Vector2(6, 0)
+collision_layer = 8
+collision_mask = 5
+physics_material_override = ExtResource("3_qd4g6")
+
+[node name="ColorRect" type="ColorRect" parent="UpWall"]
+offset_right = 240.0
+offset_bottom = 15.0
+color = Color(0, 0, 0, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="UpWall"]
+position = Vector2(120, 7.5)
+shape = SubResource("RectangleShape2D_qd4g6")
+
+[node name="DownWall" type="StaticBody2D" parent="."]
+position = Vector2(2, 229)
+collision_layer = 8
+collision_mask = 5
+physics_material_override = ExtResource("3_qd4g6")
+
+[node name="ColorRect" type="ColorRect" parent="DownWall"]
+offset_right = 240.0
+offset_bottom = 15.0
+color = Color(0, 0, 0, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DownWall"]
+position = Vector2(120, 7.5)
+shape = SubResource("RectangleShape2D_qd4g6")
