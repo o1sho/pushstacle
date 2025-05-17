@@ -67,11 +67,11 @@ func _on_shield_body_entered(body: Node2D) -> void:
 		apply_push_effect(body, direction)
 
 func apply_push_effect(target: Node2D, direction: Vector2):
-	if target.has_method("take_damage"):
-		target.take_damage(direction, push_force)
+	if target.has_method("on_pushed"):
+		target.on_pushed(direction, push_force)
 	
 
 
 func _on_hitbox_body_entered(body: Node2D) -> void:
 	if body.is_in_group("enemy"):
-		get_tree().reload_current_scene()
+		get_tree().call_deferred("reload_current_scene")

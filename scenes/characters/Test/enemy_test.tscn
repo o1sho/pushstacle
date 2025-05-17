@@ -1,0 +1,119 @@
+[gd_scene load_steps=16 format=3 uid="uid://cgbt0iudcakr0"]
+
+[ext_resource type="Script" uid="uid://cesxf00odlul" path="res://scenes/characters/Test/enemy_test.gd" id="1_s3kkc"]
+[ext_resource type="Texture2D" uid="uid://bk4weqple522b" path="res://assets/characters/Free Chicken Sprites.png" id="2_5o60l"]
+[ext_resource type="Script" uid="uid://dbcsvot76q7qx" path="res://scripts/state_machine/node_state_machine.gd" id="2_vd6xg"]
+[ext_resource type="Script" uid="uid://c8pb842ydhxc6" path="res://scenes/characters/Test/idle_state.gd" id="3_uiee8"]
+[ext_resource type="Script" uid="uid://b7s10i36iw74f" path="res://scenes/characters/Test/walk_state.gd" id="5_bpcwv"]
+[ext_resource type="Script" uid="uid://cdv8etqn8nn1y" path="res://scenes/characters/Test/pushed_state.gd" id="6_bpcwv"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_22gne"]
+atlas = ExtResource("2_5o60l")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xwmga"]
+atlas = ExtResource("2_5o60l")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bpcwv"]
+atlas = ExtResource("2_5o60l")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_26qfc"]
+atlas = ExtResource("2_5o60l")
+region = Rect2(0, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_51tag"]
+atlas = ExtResource("2_5o60l")
+region = Rect2(16, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2h36k"]
+atlas = ExtResource("2_5o60l")
+region = Rect2(32, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ch4fs"]
+atlas = ExtResource("2_5o60l")
+region = Rect2(48, 16, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_mr8wg"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_22gne")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xwmga")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bpcwv")
+}],
+"loop": true,
+"name": &"push",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_26qfc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_51tag")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2h36k")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ch4fs")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_7h38v"]
+radius = 5.0
+
+[node name="EnemyTest" type="CharacterBody2D" groups=["enemy"]]
+collision_layer = 4
+collision_mask = 11
+script = ExtResource("1_s3kkc")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(1, -1)
+sprite_frames = SubResource("SpriteFrames_mr8wg")
+animation = &"push"
+autoplay = "idle"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_7h38v")
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+path_desired_distance = 10.0
+path_postprocessing = 1
+avoidance_enabled = true
+radius = 5.0
+
+[node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("initial_node_state")]
+script = ExtResource("2_vd6xg")
+initial_node_state = NodePath("Idle")
+
+[node name="Idle" type="Node" parent="StateMachine" node_paths=PackedStringArray("character", "animated_sprite_2d")]
+script = ExtResource("3_uiee8")
+character = NodePath("../..")
+animated_sprite_2d = NodePath("../../AnimatedSprite2D")
+
+[node name="Walk" type="Node" parent="StateMachine" node_paths=PackedStringArray("character", "navigation_agent_2d", "animated_sprite_2d")]
+script = ExtResource("5_bpcwv")
+character = NodePath("../..")
+navigation_agent_2d = NodePath("../../NavigationAgent2D")
+animated_sprite_2d = NodePath("../../AnimatedSprite2D")
+
+[node name="Pushed" type="Node" parent="StateMachine" node_paths=PackedStringArray("character", "navigation_agent_2d", "animated_sprite_2d")]
+script = ExtResource("6_bpcwv")
+character = NodePath("../..")
+navigation_agent_2d = NodePath("../../NavigationAgent2D")
+animated_sprite_2d = NodePath("../../AnimatedSprite2D")

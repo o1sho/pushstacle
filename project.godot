@@ -24,7 +24,9 @@ window/stretch/mode="canvas_items"
 [file_customization]
 
 folder_colors={
-"res://scenes/": "yellow"
+"res://assets/": "orange",
+"res://scenes/": "yellow",
+"res://scripts/": "red"
 }
 
 [global_group]
@@ -81,5 +83,6 @@ push={
 
 [rendering]
 
+textures/canvas_textures/default_texture_filter=0
 renderer/rendering_method="gl_compatibility"
 renderer/rendering_method.mobile="gl_compatibility"
