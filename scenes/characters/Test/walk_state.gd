@@ -8,17 +8,16 @@ extends NodeState
 var speed: float
 
 func _ready() -> void:
-	
-	call_deferred("character_setup")
 	navigation_agent_2d.velocity_computed.connect(on_safe_velocity_computed)
 	
 func character_setup() -> void:
-	await get_tree().physics_frame
+	#await get_tree().physics_frame
 	
 	set_movement_target()
 
 func set_movement_target() -> void:
 	var target_position: Vector2 = NavigationServer2D.map_get_random_point(navigation_agent_2d.get_navigation_map(), navigation_agent_2d.navigation_layers, false)
+	print (target_position)
 	navigation_agent_2d.target_position = target_position
 	speed = randf_range(min_speed, max_speed)
 	
@@ -45,7 +44,6 @@ func _on_physics_process(_delta : float) -> void:
 		character.velocity = velocity
 		character.move_and_slide()
 
-
 func on_safe_velocity_computed(safe_velocity: Vector2) -> void:
 	animated_sprite_2d.flip_h = safe_velocity.x < 0
 	character.velocity = safe_velocity
@@ -58,6 +56,8 @@ func _on_next_transitions() -> void:
 
 
 func _on_enter() -> void:
+	call_deferred("character_setup")
+	
 	animated_sprite_2d.play("walk")
 	character.current_walk_cycle = 0
 

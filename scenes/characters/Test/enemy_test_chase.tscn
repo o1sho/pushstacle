@@ -1,38 +1,40 @@
-[gd_scene load_steps=16 format=3 uid="uid://cgbt0iudcakr0"]
+[gd_scene load_steps=20 format=3 uid="uid://cha7liac75rsp"]
 
-[ext_resource type="Script" uid="uid://cesxf00odlul" path="res://scenes/characters/Test/enemy_test.gd" id="1_s3kkc"]
-[ext_resource type="Texture2D" uid="uid://bk4weqple522b" path="res://assets/characters/Free Chicken Sprites.png" id="2_5o60l"]
-[ext_resource type="Script" uid="uid://dbcsvot76q7qx" path="res://scripts/state_machine/node_state_machine.gd" id="2_vd6xg"]
-[ext_resource type="Script" uid="uid://c8pb842ydhxc6" path="res://scenes/characters/Test/idle_state.gd" id="3_uiee8"]
-[ext_resource type="Script" uid="uid://b7s10i36iw74f" path="res://scenes/characters/Test/walk_state.gd" id="5_bpcwv"]
-[ext_resource type="Script" uid="uid://cdv8etqn8nn1y" path="res://scenes/characters/Test/pushed_state.gd" id="6_bpcwv"]
+[ext_resource type="Script" uid="uid://bg1pd814rukuc" path="res://scenes/characters/Test/enemy_test_chase.gd" id="1_l4fgr"]
+[ext_resource type="Texture2D" uid="uid://bk4weqple522b" path="res://assets/characters/Free Chicken Sprites.png" id="2_jsqj0"]
+[ext_resource type="Script" uid="uid://dbcsvot76q7qx" path="res://scripts/state_machine/node_state_machine.gd" id="3_xnges"]
+[ext_resource type="Script" uid="uid://c8pb842ydhxc6" path="res://scenes/characters/Test/idle_state.gd" id="4_77frq"]
+[ext_resource type="Script" uid="uid://b7s10i36iw74f" path="res://scenes/characters/Test/walk_state.gd" id="5_h4ji0"]
+[ext_resource type="Script" uid="uid://cdv8etqn8nn1y" path="res://scenes/characters/Test/pushed_state.gd" id="6_lswud"]
+[ext_resource type="Script" uid="uid://crijrl77wmejx" path="res://scenes/characters/Test/chase_state.gd" id="7_vbxml"]
+[ext_resource type="Script" uid="uid://bb6v74py10uw5" path="res://scenes/characters/Test/search_state.gd" id="8_jsqj0"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_22gne"]
-atlas = ExtResource("2_5o60l")
+atlas = ExtResource("2_jsqj0")
 region = Rect2(0, 0, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_xwmga"]
-atlas = ExtResource("2_5o60l")
+atlas = ExtResource("2_jsqj0")
 region = Rect2(16, 0, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_bpcwv"]
-atlas = ExtResource("2_5o60l")
+atlas = ExtResource("2_jsqj0")
 region = Rect2(16, 0, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_26qfc"]
-atlas = ExtResource("2_5o60l")
+atlas = ExtResource("2_jsqj0")
 region = Rect2(0, 16, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_51tag"]
-atlas = ExtResource("2_5o60l")
+atlas = ExtResource("2_jsqj0")
 region = Rect2(16, 16, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_2h36k"]
-atlas = ExtResource("2_5o60l")
+atlas = ExtResource("2_jsqj0")
 region = Rect2(32, 16, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ch4fs"]
-atlas = ExtResource("2_5o60l")
+atlas = ExtResource("2_jsqj0")
 region = Rect2(48, 16, 16, 16)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_mr8wg"]
@@ -77,12 +79,19 @@ animations = [{
 [sub_resource type="CircleShape2D" id="CircleShape2D_7h38v"]
 radius = 5.0
 
-[node name="EnemyTest" type="CharacterBody2D" groups=["enemy"]]
-collision_layer = 16
+[sub_resource type="CircleShape2D" id="CircleShape2D_l4fgr"]
+radius = 70.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_jsqj0"]
+radius = 5.5
+
+[node name="EnemyTestChase" type="CharacterBody2D" groups=["enemy"]]
+collision_layer = 4
 collision_mask = 11
-script = ExtResource("1_s3kkc")
+script = ExtResource("1_l4fgr")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+modulate = Color(0.979186, 0.503769, 0.441308, 1)
 position = Vector2(1, -1)
 sprite_frames = SubResource("SpriteFrames_mr8wg")
 animation = &"push"
@@ -98,22 +107,44 @@ avoidance_enabled = true
 radius = 5.0
 
 [node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("initial_node_state")]
-script = ExtResource("2_vd6xg")
+script = ExtResource("3_xnges")
 initial_node_state = NodePath("Idle")
 
 [node name="Idle" type="Node" parent="StateMachine" node_paths=PackedStringArray("character", "animated_sprite_2d")]
-script = ExtResource("3_uiee8")
+script = ExtResource("4_77frq")
 character = NodePath("../..")
 animated_sprite_2d = NodePath("../../AnimatedSprite2D")
 
 [node name="Walk" type="Node" parent="StateMachine" node_paths=PackedStringArray("character", "navigation_agent_2d", "animated_sprite_2d")]
-script = ExtResource("5_bpcwv")
+script = ExtResource("5_h4ji0")
 character = NodePath("../..")
 navigation_agent_2d = NodePath("../../NavigationAgent2D")
 animated_sprite_2d = NodePath("../../AnimatedSprite2D")
 
 [node name="Pushed" type="Node" parent="StateMachine" node_paths=PackedStringArray("character", "navigation_agent_2d", "animated_sprite_2d")]
-script = ExtResource("6_bpcwv")
+script = ExtResource("6_lswud")
 character = NodePath("../..")
 navigation_agent_2d = NodePath("../../NavigationAgent2D")
 animated_sprite_2d = NodePath("../../AnimatedSprite2D")
+
+[node name="Chase" type="Node" parent="StateMachine" node_paths=PackedStringArray("character", "navigation_agent_2d", "animated_sprite_2d")]
+script = ExtResource("7_vbxml")
+character = NodePath("../..")
+navigation_agent_2d = NodePath("../../NavigationAgent2D")
+animated_sprite_2d = NodePath("../../AnimatedSprite2D")
+
+[node name="Search" type="Node" parent="StateMachine" node_paths=PackedStringArray("character", "animated_sprite_2d")]
+script = ExtResource("8_jsqj0")
+character = NodePath("../..")
+animated_sprite_2d = NodePath("../../AnimatedSprite2D")
+
+[node name="ChaseArea" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ChaseArea"]
+shape = SubResource("CircleShape2D_l4fgr")
+debug_color = Color(0.976471, 0, 0.4, 0.2)
+
+[node name="HitShapeCast" type="ShapeCast2D" parent="."]
+shape = SubResource("CircleShape2D_jsqj0")
+target_position = Vector2(0, 0)
+collision_mask = 16

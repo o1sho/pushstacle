@@ -14,4 +14,3 @@ signal is_pushed(direction: Vector2, force: float)
 func on_pushed(direction: Vector2, force: float):
 	is_pushed.emit(direction, force)
 	state_machine.transition_to("Pushed")
-	

@@ -1,7 +1,8 @@
-[gd_scene load_steps=7 format=3 uid="uid://ujp7x81eqpkg"]
+[gd_scene load_steps=8 format=3 uid="uid://ujp7x81eqpkg"]
 
 [ext_resource type="PackedScene" uid="uid://dfeswoxxqkp31" path="res://scenes/player.tscn" id="1_4sxn7"]
 [ext_resource type="PhysicsMaterial" uid="uid://qty6bjhe0rj6" path="res://scenes/physics_materials/wall_physics_material.tres" id="3_qd4g6"]
+[ext_resource type="PackedScene" uid="uid://cha7liac75rsp" path="res://scenes/characters/Test/enemy_test_chase.tscn" id="4_5t4ks"]
 [ext_resource type="PackedScene" uid="uid://cgbt0iudcakr0" path="res://scenes/characters/Test/enemy_test.tscn" id="4_n4qmf"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_mixvf"]
@@ -22,7 +23,6 @@ anchor_mode = 0
 
 [node name="Player" parent="." instance=ExtResource("1_4sxn7")]
 position = Vector2(120, 96)
-push_force = 200.0
 
 [node name="LeftWall" type="StaticBody2D" parent="."]
 collision_layer = 8
@@ -85,20 +85,32 @@ shape = SubResource("RectangleShape2D_qd4g6")
 
 [node name="Enemies" type="Node" parent="."]
 
-[node name="EnemyTest" parent="Enemies" instance=ExtResource("4_n4qmf")]
-position = Vector2(131, 172)
-
-[node name="EnemyTest2" parent="Enemies" instance=ExtResource("4_n4qmf")]
-position = Vector2(97, 155)
-
-[node name="EnemyTest3" parent="Enemies" instance=ExtResource("4_n4qmf")]
-position = Vector2(180, 79)
-
-[node name="EnemyTest4" parent="Enemies" instance=ExtResource("4_n4qmf")]
-position = Vector2(68, 62)
-
-[node name="EnemyTest5" parent="Enemies" instance=ExtResource("4_n4qmf")]
-position = Vector2(176, 134)
-
 [node name="NavigationRegion2D" type="NavigationRegion2D" parent="Enemies"]
 navigation_polygon = SubResource("NavigationPolygon_5t4ks")
+
+[node name="EnemyTestChase" parent="Enemies" instance=ExtResource("4_5t4ks")]
+position = Vector2(57, 184)
+
+[node name="EnemyTest" parent="Enemies" instance=ExtResource("4_n4qmf")]
+position = Vector2(82, 77)
+
+[node name="EnemyTest2" parent="Enemies" instance=ExtResource("4_n4qmf")]
+position = Vector2(53, 94)
+
+[node name="EnemyTest3" parent="Enemies" instance=ExtResource("4_n4qmf")]
+position = Vector2(193, 179)
+
+[node name="EnemyTest4" parent="Enemies" instance=ExtResource("4_n4qmf")]
+position = Vector2(89, 148)
+
+[node name="EnemyTest5" parent="Enemies" instance=ExtResource("4_n4qmf")]
+position = Vector2(142, 179)
+
+[node name="EnemyTest6" parent="Enemies" instance=ExtResource("4_n4qmf")]
+position = Vector2(122, 56)
+
+[node name="EnemyTest7" parent="Enemies" instance=ExtResource("4_n4qmf")]
+position = Vector2(182, 133)
+
+[node name="EnemyTest8" parent="Enemies" instance=ExtResource("4_n4qmf")]
+position = Vector2(191, 48)

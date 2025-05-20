@@ -28,8 +28,10 @@ func _physics_process(delta: float) -> void:
 		current_impulse = Vector2.ZERO
 
 func _on_next_transitions() -> void:
-	if push_state_timeout:
-		transition.emit("Walk")
+	if has_node("../Search") && push_state_timeout:
+		transition.emit("Search")
+	elif push_state_timeout: 
+		transition.emit("Idle")
 
 func _on_enter() -> void:
 	character.velocity = Vector2.ZERO
